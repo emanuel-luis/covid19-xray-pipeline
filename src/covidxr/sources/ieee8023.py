@@ -106,7 +106,8 @@ class Ieee8023Source:
             RawImage(
                 f"images/{r.filename}",
                 _FINDINGS[cast(str, r.finding)],
-                None if pd.isna(r.patientid) else str(r.patientid),
+                # dtype=str: the cell is a string, or NaN when empty.
+                None if pd.isna(cast("str | float", r.patientid)) else str(r.patientid),
             )
             for r in df.itertuples(index=False)
         ]
